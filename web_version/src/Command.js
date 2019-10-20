@@ -1,43 +1,57 @@
 import React from "react";
 
-const defaultWord = "Abonne-toi";
-
-const initState = {
-  nbIndividuals: 1000,
-  childrenElit: 90,
-  parentElit: 30,
-  timeSimulation: 50,
-  probRandomChro: 5,
-  word: defaultWord
-};
-
 export default class Command extends React.Component {
-  constructor() {
-    super();
-    this.state = initState;
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      ...this.props.values
+    };
   }
 
+  displayButton = () => {
+    let message = "Jouer";
+    if (this.state.play) {
+      message = "Pause";
+    }
+    return (
+      <button
+        onClick={() => {
+          let newState = this.state;
+          newState.play = !newState.play;
+          this.setState(newState);
+        }}
+        className="btn btn-primary col-3"
+      >
+        {message}
+      </button>
+    );
+  };
+
   render() {
-    // console.log(this.state);
     return (
       <form
         onSubmit={e => {
-          console.log("event");
           e.preventDefault();
+          console.log("SUBMIT");
+          this.props.updateValues(this.state);
         }}
       >
         <div className="form-group">
           <label htmlFor="formControlRange">Éléments à trouver</label>
-          <input
-            type="text"
-            className="form-control-plaintext border"
-            onChange={e => {
-              let newState = this.state;
-              newState.word = e.target.value;
-              this.setState(newState);
-            }}
-            value={this.state.word}
-          />
+          <div className="row">
+            <input
+              type="text"
+              className="form-control-plaintext border col-10"
+              onChange={e => {
+                let newState = this.state;
+                newState.word = e.target.value;
+                this.setState(newState);
+              }}
+              value={this.state.word}
+            />
+            <p className="col-2">{this.state.word.length}</p>
+          </div>
         </div>
         <div className="form-group">
           <label htmlFor="formControlRange">Nombre d'individus</label>
@@ -141,19 +155,18 @@ export default class Command extends React.Component {
         </div>
         <div className="row justify-content-around">
           <button
-            className="btn btn-secondary col-4"
+            className="btn btn-secondary col-3"
             type="button"
             onClick={() => {
-              let newState = initState;
-              newState.word = defaultWord;
-              this.setState(newState);
+              this.setState(this.props.resetValues());
             }}
           >
             Réinitialiser
           </button>
-          <button type="submit" className="btn btn-primary col-4">
-            Lancer
-          </button>
+
+          {this.displayButton()}
+
+          <button className="btn btn-primary col-3">Step</button>
         </div>
       </form>
     );

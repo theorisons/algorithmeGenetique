@@ -11,6 +11,7 @@ export default class Population {
     // parentElit = Percentage of parents choose because of their fitness
     // childElit = Percentage of children choose because of their fitness
     // Percentage of chromosome generate randomly
+
     let indTmp;
 
     for (let i = 0; i < nbInd; i++) {

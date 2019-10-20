@@ -1,75 +1,121 @@
 import React from "react";
 import Population from "./population/population";
 
-let word = "Test de longueur";
-let population;
-let reqTime;
-
 export default class Algo extends React.Component {
-  constructor() {
-    super();
-    this.result = [];
+  constructor(props) {
+    super(props);
 
-    this.state = {
-      iteration: 0,
-      displayPop: false
-    };
+    this.result = [];
+    this.iteration = 0;
+    this.population = undefined;
+    this.world = "";
+
+    this.find = false;
+
+    // this.state = {
+    //   iteration: 0,
+    //   displayPop: false
+    // };
+  }
+
+  componentDidMount() {
+    this.handler(this.props.action);
   }
 
   componentDidUpdate() {
-    if (population.arrayInd[0].fit === 0) {
-      clearInterval(this.reqTime);
-    }
+    this.handler(this.props.action);
   }
 
-  newResearch() {
-    population = new Population(1000, word.length, 10, 90, 10);
-    population.evaluation(word);
-    population.arrange();
+  handler = action => {
+    console.log("ACTION");
+    console.log(action);
+    switch (action) {
+      case 0:
+        // Nothing to do
+        break;
+      case 1:
+        // Change values
+        this.newResearch(this.props.values);
+        break;
+      case 2:
+        // Step the programm
+        this.newIteration();
+        break;
+      default:
+        // Nothing
+        break;
+    }
+
+    this.props.validation(this.find);
+    // if (population !== undefined) {
+    //   if (population.arrayInd[0].fit === 0) {
+    //     clearInterval(this.reqTime);
+    //   }
+    // }
+  };
+
+  newResearch(parameters) {
+    const {
+      nbIndividuals,
+      childrenElit,
+      parentElit,
+      probRandomChro,
+      word
+    } = parameters;
+
+    this.population = new Population(
+      nbIndividuals,
+      word.length,
+      parentElit,
+      childrenElit,
+      probRandomChro
+    );
+    this.word = word;
+    this.population.evaluation(this.word);
+    this.population.arrange();
 
     this.result = [];
-    let newState = this.state;
-    newState.iteration = 0;
-    this.setState(newState);
+    this.iteration = 0;
+    this.find = false;
   }
 
   addResult() {
     this.result.unshift(
-      <p key={this.state.iteration}>
-        {population.arrayInd[0].chromosomes} avec fit :{" "}
-        {population.arrayInd[0].fit} en {this.state.iteration}
+      <p key={this.iteration}>
+        {this.population.arrayInd[0].chromosomes} avec fit :{" "}
+        {this.population.arrayInd[0].fit} en {this.iteration}
       </p>
     );
   }
 
   newIteration() {
-    population.evolution();
-    population.evaluation(word);
-    population.arrange();
+    this.population.evolution();
+    this.population.evaluation(this.word);
+    this.population.arrange();
 
-    let newState = this.state;
-    newState.iteration = newState.iteration + 1;
+    this.iteration += 1;
 
     this.addResult();
-    this.setState(newState);
-  }
-
-  displayPopulation() {
-    if (this.state.displayPop) {
-      return population.arrayInd.map((individual, index) => (
-        <p key={`${this.state.iteration}:${index}`}>{individual.display()}</p>
-      ));
+    if (this.population.arrayInd[0].fit === 0) {
+      this.find = true;
     }
   }
 
+  // displayPopulation() {
+  //   if (this.state.displayPop) {
+  //     return population.arrayInd.map((individual, index) => (
+  //       <p key={`${this.state.iteration}:${index}`}>{individual.display()}</p>
+  //     ));
+  //   }
+  // }
+
   render() {
+    console.log(this.result);
     return (
       <div>
-        <button onClick={() => this.newIteration()}>Nouvelle itération</button>
-        <p>Mot à chercher : {word}</p>
         {this.result.map(el => el)}
 
-        <button
+        {/* <button
           onClick={() =>
             (reqTime = setInterval(() => {
               this.newIteration();
@@ -77,9 +123,9 @@ export default class Algo extends React.Component {
           }
         >
           GO
-        </button>
+        </button> */}
 
-        <button
+        {/* <button
           onClick={() => {
             let newState = this.state;
             newState.displayPop = !newState.displayPop;
@@ -88,7 +134,7 @@ export default class Algo extends React.Component {
         >
           Voir population
         </button>
-        {this.displayPopulation()}
+        {this.displayPopulation()} */}
       </div>
     );
   }
