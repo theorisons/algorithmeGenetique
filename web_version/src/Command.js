@@ -1,27 +1,116 @@
 import React from "react";
+import Algorithme from "./population/algorithme";
+
+const initState = {
+  iteration: 0,
+  play: false
+};
 
 export default class Command extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      ...this.props.values
-    };
+    this.params = undefined;
+    this.algo = undefined;
+    this.result = [];
+    this.animation = undefined;
+
+    this.initAlgo();
+
+    this.state = initState;
   }
 
-  displayButton = () => {
-    let message = "Jouer";
-    if (this.state.play) {
+  componentDidUpdate() {
+    if (this.checkNewParams()) {
+      this.initAlgo();
+      this.setState(initState);
+    }
+  }
+
+  initAlgo = () => {
+    const {
+      nbIndividuals,
+      parentElit,
+      childrenElit,
+      probRandomChro,
+      timeSimulation,
+      word
+    } = this.props.params;
+
+    this.params = this.props.params;
+    this.animation = undefined;
+
+    this.algo = new Algorithme(
+      nbIndividuals,
+      word.length,
+      parentElit,
+      childrenElit,
+      probRandomChro,
+      word
+    );
+
+    this.result = [];
+    this.timeSimulation = timeSimulation;
+  };
+
+  checkNewParams = () => {
+    return this.params !== this.props.params;
+  };
+
+  step = () => {
+    if (this.state.iteration === 0) {
+      this.addResult(this.algo.firstStep());
+    } else {
+      this.addResult(this.algo.newIteration());
+    }
+    this.setState({
+      ...this.state,
+      iteration: this.state.iteration + 1
+    });
+  };
+
+  addResult = result => {
+    this.result.unshift({
+      ...result,
+      iteration: this.state.iteration
+    });
+  };
+
+  displayResult = () => {
+    return this.result.map(res => (
+      <div
+        key={`${res.chromosomes}:${res.fit}:${res.iteration}`}
+        className="row text-center"
+      >
+        <p className="col-8">{res.chromosomes}</p>
+        <p className="col-1">{res.fit}</p>
+        <p className="col-1">{res.iteration}</p>
+      </div>
+    ));
+  };
+
+  handlePlayPause = () => {
+    if (this.animation === undefined) {
+      this.animation = setInterval(this.step, this.params.timeSimulation);
+    } else {
+      clearInterval(this.animation);
+    }
+    this.setState({
+      ...this.state,
+      play: !this.state.play
+    });
+  };
+
+  playPauseButton = () => {
+    let message = "Play";
+    if (this.animation !== undefined) {
       message = "Pause";
     }
     return (
       <button
-        onClick={() => {
-          let newState = this.state;
-          newState.play = !newState.play;
-          this.setState(newState);
-        }}
-        className="btn btn-primary col-3"
+        type="button"
+        className="btn btn-primary col-4"
+        onClick={() => this.handlePlayPause()}
       >
         {message}
       </button>
@@ -29,146 +118,23 @@ export default class Command extends React.Component {
   };
 
   render() {
+    console.log(this.state);
     return (
-      <form
-        onSubmit={e => {
-          e.preventDefault();
-          console.log("SUBMIT");
-          this.props.updateValues(this.state);
-        }}
-      >
-        <div className="form-group">
-          <label htmlFor="formControlRange">Éléments à trouver</label>
-          <div className="row">
-            <input
-              type="text"
-              className="form-control-plaintext border col-10"
-              onChange={e => {
-                let newState = this.state;
-                newState.word = e.target.value;
-                this.setState(newState);
-              }}
-              value={this.state.word}
-            />
-            <p className="col-2">{this.state.word.length}</p>
-          </div>
-        </div>
-        <div className="form-group">
-          <label htmlFor="formControlRange">Nombre d'individus</label>
-          <div className="row">
-            <input
-              className="form-control-range col-10"
-              type="range"
-              min={0}
-              max={5000}
-              step={50}
-              onChange={e => {
-                let newState = this.state;
-                newState.nbIndividuals = e.target.value;
-                this.setState(newState);
-              }}
-              value={this.state.nbIndividuals}
-            />
-            <p className="col-2">{this.state.nbIndividuals}</p>
-          </div>
-        </div>
-        <div className="form-group">
-          <label htmlFor="formControlRange">
-            Pourcentage d'enfants générés par élilistisme
-          </label>
-          <div className="row">
-            <input
-              className="form-control-range col-10"
-              type="range"
-              min={0}
-              max={100}
-              onChange={e => {
-                let newState = this.state;
-                newState.childrenElit = e.target.value;
-                this.setState(newState);
-              }}
-              value={this.state.childrenElit}
-            />
-            <p className="col-2">{this.state.childrenElit}%</p>
-          </div>
-        </div>
-        <div className="form-group">
-          <label htmlFor="formControlRange">
-            Pourcentage de parents retenus par élilistisme
-          </label>
-          <div className="row">
-            <input
-              className="form-control-range col-10"
-              type="range"
-              min={0}
-              max={100}
-              onChange={e => {
-                let newState = this.state;
-                newState.parentElit = e.target.value;
-                this.setState(newState);
-              }}
-              value={this.state.parentElit}
-            />
-            <p className="col-2">{this.state.parentElit}%</p>
-          </div>
-        </div>
-        <div className="form-group">
-          <label htmlFor="formControlRange">
-            Probabalité d'obtenir un chromosome aléatoire
-          </label>
-          <div className="row">
-            <input
-              className="form-control-range col-10"
-              type="range"
-              min={0}
-              max={100}
-              onChange={e => {
-                let newState = this.state;
-                newState.probRandomChro = e.target.value;
-                this.setState(newState);
-              }}
-              value={this.state.probRandomChro}
-            />
-            <p className="col-2">{this.state.probRandomChro}%</p>
-          </div>
-        </div>
-        <div className="form-group">
-          <label htmlFor="formControlRange">
-            Durée entre chaque génération
-          </label>
-          <div className="row">
-            <input
-              className="form-control-range col-10"
-              type="range"
-              min={50}
-              max={5000}
-              step={50}
-              onChange={e => {
-                let newState = this.state;
-                newState.timeSimulation = e.target.value;
-                this.setState(newState);
-              }}
-              value={this.state.timeSimulation}
-            />
-            <p className="col-2">{this.state.timeSimulation / 1000}s</p>
-          </div>
-        </div>
+      <div>
         <div className="row justify-content-around">
           <button
-            className="btn btn-secondary col-3"
             type="button"
+            className="btn btn-primary col-4"
             onClick={() => {
-              this.setState(this.props.resetValues());
+              this.step();
             }}
           >
-            Réinitialiser
+            Step
           </button>
-
-          {this.displayButton()}
-
-          <button className="btn btn-primary col-3">Step</button>
+          {this.playPauseButton()}
         </div>
-      </form>
+        <div>{this.displayResult()}</div>
+      </div>
     );
   }
 }

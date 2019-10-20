@@ -1,21 +1,17 @@
 import React from "react";
-import Algo from "./Algo";
+import Params from "./Params";
 import Command from "./Command";
 
 import "./App.css";
 
 const initState = {
-  command: {
+  params: {
     nbIndividuals: 1000,
     childrenElit: 90,
     parentElit: 30,
     timeSimulation: 50,
     probRandomChro: 5,
-    play: false,
     word: "Abonne-toi"
-  },
-  algo: {
-    action: 0
   }
 };
 
@@ -27,52 +23,37 @@ class App extends React.Component {
     };
   }
 
-  endAlgo = end => {
-    if (end) {
-      console.log("FIN");
-    } else {
-      console.log("NON");
-    }
-  };
-
-  updateValuesCommand = newValuesCommand => {
+  updateValuesParams = newValuesParams => {
     let newState = this.state;
-    newState.command = newValuesCommand;
-
-    newState.algo.action = 1;
+    newState.params = newValuesParams;
 
     this.setState(newState);
   };
 
-  resetValuesCommand = () => {
-    return initState.command;
+  resetValuesParams = () => {
+    return initState.params;
   };
 
   render() {
-    console.log(this.state);
     return (
-      <div className="container border">
-        <header className="border">
+      <div className="container">
+        <header>
           <h1 className="text-center">Algorithme Génétique</h1>
           {/* <p>Copyrigth Théorisons</p> */}
         </header>
 
-        <div className="border row">
-          <div className="border col-sm-6">
+        <div className="row">
+          <div className="col-sm-6">
             <h3 className="text-center">Panneau d'affichage</h3>
-            <Algo
-              action={this.state.algo.action}
-              validation={this.endAlgo}
-              values={this.state.command}
-            />
+            <Command params={this.state.params} />
           </div>
 
-          <div className="border col-sm-6">
+          <div className="col-sm-6">
             <h3 className="text-center">Panneau de commande</h3>
-            <Command
-              values={this.state.command}
-              updateValues={this.updateValuesCommand}
-              resetValues={this.resetValuesCommand}
+            <Params
+              values={this.state.params}
+              updateValues={this.updateValuesParams}
+              resetValues={this.resetValuesParams}
             />
           </div>
         </div>
