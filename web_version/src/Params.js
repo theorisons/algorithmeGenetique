@@ -18,8 +18,8 @@ export default class Params extends React.Component {
       >
         <div className="form-group">
           <label htmlFor="formControlRange">Éléments à trouver</label>
-          <div className="row">
-            <div className="col-10">
+          <div className="row justify-content-around">
+            <div className="col-8">
               <input
                 type="text"
                 className="form-control"
@@ -36,9 +36,9 @@ export default class Params extends React.Component {
         </div>
         <div className="form-group">
           <label htmlFor="formControlRange">Nombre d'individus</label>
-          <div className="row">
+          <div className="row justify-content-around">
             <input
-              className="form-control-range col-10"
+              className="form-control-range col-8"
               type="range"
               min={0}
               max={5000}
@@ -57,9 +57,9 @@ export default class Params extends React.Component {
           <label htmlFor="formControlRange">
             Pourcentage d'enfants générés par élilistisme
           </label>
-          <div className="row">
+          <div className="row justify-content-around">
             <input
-              className="form-control-range col-10"
+              className="form-control-range col-8"
               type="range"
               min={0}
               max={100}
@@ -77,9 +77,9 @@ export default class Params extends React.Component {
           <label htmlFor="formControlRange">
             Pourcentage de parents retenus par élilistisme
           </label>
-          <div className="row">
+          <div className="row justify-content-around">
             <input
-              className="form-control-range col-10"
+              className="form-control-range col-8"
               type="range"
               min={0}
               max={100}
@@ -97,9 +97,9 @@ export default class Params extends React.Component {
           <label htmlFor="formControlRange">
             Probabalité d'obtenir un chromosome aléatoire
           </label>
-          <div className="row">
+          <div className="row justify-content-around">
             <input
-              className="form-control-range col-10"
+              className="form-control-range col-8"
               type="range"
               min={0}
               max={100}
@@ -113,27 +113,7 @@ export default class Params extends React.Component {
             <p className="col-2">{this.state.probRandomChro}%</p>
           </div>
         </div>
-        <div className="form-group">
-          <label htmlFor="formControlRange">
-            Durée entre chaque génération
-          </label>
-          <div className="row">
-            <input
-              className="form-control-range col-10"
-              type="range"
-              min={50}
-              max={5000}
-              step={50}
-              onChange={e => {
-                let newState = this.state;
-                newState.timeSimulation = e.target.value;
-                this.setState(newState);
-              }}
-              value={this.state.timeSimulation}
-            />
-            <p className="col-2">{this.state.timeSimulation / 1000}s</p>
-          </div>
-        </div>
+
         <div className="row justify-content-around">
           <button
             className="btn btn-secondary col-4"

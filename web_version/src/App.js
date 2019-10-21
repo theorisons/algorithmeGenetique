@@ -9,7 +9,6 @@ const initState = {
     nbIndividuals: 1000,
     childrenElit: 90,
     parentElit: 30,
-    timeSimulation: 50,
     probRandomChro: 5,
     word: "Abonne-toi"
   }

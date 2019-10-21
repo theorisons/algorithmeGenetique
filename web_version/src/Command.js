@@ -3,7 +3,8 @@ import Algorithme from "./population/algorithme";
 
 const initState = {
   iteration: 0,
-  play: false
+  play: false,
+  timeSimulation: 50
 };
 
 export default class Command extends React.Component {
@@ -13,6 +14,7 @@ export default class Command extends React.Component {
     this.params = undefined;
     this.algo = undefined;
     this.result = [];
+    this.resultJsx = [];
     this.animation = undefined;
 
     this.initAlgo();
@@ -22,8 +24,12 @@ export default class Command extends React.Component {
 
   componentDidUpdate() {
     if (this.checkNewParams()) {
+      this.stopAnimation();
       this.initAlgo();
-      this.setState(initState);
+      this.setState({
+        ...initState,
+        timeSimulation: this.state.timeSimulation
+      });
     }
   }
 
@@ -50,6 +56,8 @@ export default class Command extends React.Component {
     );
 
     this.result = [];
+    this.resultJsx = [];
+
     this.timeSimulation = timeSimulation;
   };
 
@@ -58,11 +66,19 @@ export default class Command extends React.Component {
   };
 
   step = () => {
+    let result = undefined;
     if (this.state.iteration === 0) {
-      this.addResult(this.algo.firstStep());
+      result = this.algo.firstStep();
     } else {
-      this.addResult(this.algo.newIteration());
+      result = this.algo.newIteration();
     }
+
+    this.addResult(result);
+
+    if (result.fit === 0) {
+      this.stopAnimation();
+    }
+
     this.setState({
       ...this.state,
       iteration: this.state.iteration + 1
@@ -74,26 +90,52 @@ export default class Command extends React.Component {
       ...result,
       iteration: this.state.iteration
     });
+    this.resultJsx.unshift(
+      <tr
+        key={`${this.result[0].chromosomes}:${this.result[0].fit}:${this.result[0].iteration}`}
+        className="row text-center"
+      >
+        <td>{this.result[0].chromosomes}</td>
+        <td>{this.result[0].fit}</td>
+        <td>{this.result[0].iteration}</td>
+      </tr>
+    );
   };
 
   displayResult = () => {
-    return this.result.map(res => (
-      <div
-        key={`${res.chromosomes}:${res.fit}:${res.iteration}`}
-        className="row text-center"
-      >
-        <p className="col-8">{res.chromosomes}</p>
-        <p className="col-1">{res.fit}</p>
-        <p className="col-1">{res.iteration}</p>
-      </div>
-    ));
+    return (
+      <table className="table">
+        <thead>
+          <tr>
+            <th scope="col">Mot</th>
+            <th scope="col">Fit</th>
+            <th scope="col">Itération</th>
+          </tr>
+        </thead>
+        <tbody>{this.resultJsx}</tbody>
+      </table>
+    );
+  };
+
+  stopAnimation = () => {
+    if (this.animation !== undefined) {
+      clearInterval(this.animation);
+      this.animation = undefined;
+    }
+  };
+
+  changeValueAnimation = () => {
+    if (this.animation !== undefined) {
+      this.stopAnimation();
+      this.animation = setInterval(this.step, this.state.timeSimulation);
+    }
   };
 
   handlePlayPause = () => {
     if (this.animation === undefined) {
-      this.animation = setInterval(this.step, this.params.timeSimulation);
+      this.animation = setInterval(this.step, this.state.timeSimulation);
     } else {
-      clearInterval(this.animation);
+      this.stopAnimation();
     }
     this.setState({
       ...this.state,
@@ -109,7 +151,7 @@ export default class Command extends React.Component {
     return (
       <button
         type="button"
-        className="btn btn-primary col-4"
+        className="btn btn-primary col-3"
         onClick={() => this.handlePlayPause()}
       >
         {message}
@@ -118,14 +160,49 @@ export default class Command extends React.Component {
   };
 
   render() {
-    console.log(this.state);
     return (
       <div>
+        <div className="form-group">
+          <label htmlFor="formControlRange">
+            Durée entre chaque génération
+          </label>
+          <div className="row justify-content-around">
+            <input
+              className="form-control-range col-8"
+              type="range"
+              min={50}
+              max={5000}
+              step={50}
+              onChange={e => {
+                let newState = this.state;
+                newState.timeSimulation = e.target.value;
+                this.setState(newState, this.changeValueAnimation);
+              }}
+              value={this.state.timeSimulation}
+            />
+            <p className="col-2">{this.state.timeSimulation / 1000}s</p>
+          </div>
+        </div>
         <div className="row justify-content-around">
           <button
             type="button"
-            className="btn btn-primary col-4"
+            className="btn btn-primary col-3"
             onClick={() => {
+              this.stopAnimation();
+              this.initAlgo();
+              this.setState({
+                ...initState,
+                timeSimulation: this.state.timeSimulation
+              });
+            }}
+          >
+            Reset
+          </button>
+          <button
+            type="button"
+            className="btn btn-primary col-3"
+            onClick={() => {
+              this.stopAnimation();
               this.step();
             }}
           >
@@ -133,7 +210,7 @@ export default class Command extends React.Component {
           </button>
           {this.playPauseButton()}
         </div>
-        <div>{this.displayResult()}</div>
+        {this.displayResult()}
       </div>
     );
   }
