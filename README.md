@@ -9,7 +9,7 @@ Le principe est de trouver une phrase rentré par l'utilisateur en utilisant le 
 ### Utilisation
 
 * #### Web 
-Le site est hébergé directement sur GitHub Pages, c'est-à-dire que le site est accessible sur ce  **[lien](https://theorisons.github.io/algorithmeGenetique/ "tester l'algorithme")**.. 
+Le site est hébergé directement sur GitHub Pages, c'est-à-dire que le site est accessible sur ce  **[lien](https://theorisons.github.io/algorithmeGenetique/ "tester l'algorithme")**. 
 
 * #### Local
 
