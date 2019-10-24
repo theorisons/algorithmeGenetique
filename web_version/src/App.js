@@ -39,6 +39,7 @@ class App extends React.Component {
           <div className="fixed-bottom text-right p-2">
             <a
               href={"https://github.com/theorisons/algorithmeGenetique"}
+              rel="noopener noreferrer"
               target="_blank"
             >
               Repository Github
@@ -46,6 +47,7 @@ class App extends React.Component {
             <br />
             <a
               href={"https://www.youtube.com/theorisons/?sub_confirmation=1"}
+              rel="noopener noreferrer"
               target="_blank"
             >
               Copyright © Oct 2019 Théorisons
