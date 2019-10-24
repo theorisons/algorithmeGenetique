@@ -1,4 +1,5 @@
 import React from "react";
+import { checkForLetters } from "./population/utilities";
 
 export default class Params extends React.Component {
   constructor(props) {
@@ -25,7 +26,7 @@ export default class Params extends React.Component {
                 className="form-control"
                 onChange={e => {
                   let newState = this.state;
-                  newState.word = e.target.value;
+                  newState.word = checkForLetters(e.target.value);
                   this.setState(newState);
                 }}
                 value={this.state.word}

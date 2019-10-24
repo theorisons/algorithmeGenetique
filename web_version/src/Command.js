@@ -93,7 +93,6 @@ export default class Command extends React.Component {
     this.resultJsx.unshift(
       <tr
         key={`${this.result[0].chromosomes}:${this.result[0].fit}:${this.result[0].iteration}`}
-        className="row text-center"
       >
         <td>{this.result[0].chromosomes}</td>
         <td>{this.result[0].fit}</td>

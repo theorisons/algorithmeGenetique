@@ -2,8 +2,6 @@ import React from "react";
 import Params from "./Params";
 import Command from "./Command";
 
-import "./App.css";
-
 const initState = {
   params: {
     nbIndividuals: 1000,
@@ -38,7 +36,21 @@ class App extends React.Component {
       <div className="container">
         <header>
           <h1 className="text-center">Algorithme Génétique</h1>
-          {/* <p>Copyrigth Théorisons</p> */}
+          <div className="fixed-bottom text-right p-2">
+            <a
+              href={"https://github.com/theorisons/algorithmeGenetique"}
+              target="_blank"
+            >
+              Repository Github
+            </a>
+            <br />
+            <a
+              href={"https://www.youtube.com/theorisons/?sub_confirmation=1"}
+              target="_blank"
+            >
+              Copyright © Oct 2019 Théorisons
+            </a>
+          </div>
         </header>
 
         <div className="row">
