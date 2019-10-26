@@ -102,18 +102,20 @@ export default class Command extends React.Component {
   };
 
   displayResult = () => {
-    return (
-      <table className="table">
-        <thead>
-          <tr>
-            <th scope="col">Mot</th>
-            <th scope="col">Fit</th>
-            <th scope="col">Itération</th>
-          </tr>
-        </thead>
-        <tbody>{this.resultJsx}</tbody>
-      </table>
-    );
+    if (this.state.iteration !== 0) {
+      return (
+        <table className="table">
+          <thead>
+            <tr>
+              <th scope="col">Mot</th>
+              <th scope="col">Fit</th>
+              <th scope="col">Itération</th>
+            </tr>
+          </thead>
+          <tbody>{this.resultJsx}</tbody>
+        </table>
+      );
+    }
   };
 
   stopAnimation = () => {

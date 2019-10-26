@@ -12,6 +12,28 @@ const initState = {
   }
 };
 
+const copyright = () => {
+  return (
+    <div>
+      <a
+        href={"https://github.com/theorisons/algorithmeGenetique"}
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        Repository Github
+      </a>
+      <br />
+      <a
+        href={"https://www.youtube.com/theorisons/?sub_confirmation=1"}
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        Copyright © Oct 2019 Théorisons
+      </a>
+    </div>
+  );
+};
+
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -36,32 +58,25 @@ class App extends React.Component {
       <div className="container">
         <header>
           <h1 className="text-center">Algorithme Génétique</h1>
-          <div className="fixed-bottom text-right p-2">
-            <a
-              href={"https://github.com/theorisons/algorithmeGenetique"}
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-              Repository Github
-            </a>
-            <br />
-            <a
-              href={"https://www.youtube.com/theorisons/?sub_confirmation=1"}
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-              Copyright © Oct 2019 Théorisons
-            </a>
+
+          <div className="text-right p-2 d-block d-sm-none">{copyright()}</div>
+          {/* COPYRIGHT DISPLAY SMALL SCREEN ON TOP */}
+
+          <div className="text-right p-2 fixed-bottom d-sm-block d-none">
+            {copyright()}
           </div>
+          {/* COPYRIGHT LARGE SCREEN ON THE BOTTOM */}
         </header>
 
+        <hr className="p-1" />
+
         <div className="row">
-          <div className="col-sm-6">
+          <div className="col-sm-6 p-2">
             <h3 className="text-center">Panneau d'affichage</h3>
             <Command params={this.state.params} />
           </div>
 
-          <div className="col-sm-6">
+          <div className="col-sm-6 p-2">
             <h3 className="text-center">Panneau de commande</h3>
             <Params
               values={this.state.params}
