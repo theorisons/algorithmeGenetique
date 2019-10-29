@@ -108,7 +108,7 @@ export default class Command extends React.Component {
           <thead>
             <tr>
               <th scope="col">Mot</th>
-              <th scope="col">Fit</th>
+              <th scope="col">Adaptation</th>
               <th scope="col">Itération</th>
             </tr>
           </thead>
