@@ -95,7 +95,7 @@ export default class Command extends React.Component {
         key={`${this.result[0].chromosomes}:${this.result[0].fit}:${this.result[0].iteration}`}
       >
         <td>{this.result[0].chromosomes}</td>
-        <td>{this.result[0].fit}</td>
+        <td>{this.result[0].chromosomes.length - this.result[0].fit}</td>
         <td>{this.result[0].iteration}</td>
       </tr>
     );
