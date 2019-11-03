@@ -70,7 +70,7 @@ class App extends React.Component {
 
         <hr className="p-1" />
 
-        <div className="row">
+        <div className="row no-gutters">
           <div className="col-sm-6 p-2">
             <h3 className="text-center">Panneau d'affichage</h3>
             <Command params={this.state.params} />
