@@ -37,14 +37,16 @@ Le site est hébergé directement sur GitHub Pages, c'est-à-dire que le site es
 
 ### Téléchargement de l'utilitaire textuel
 
+Dans l'explorateur de fichier, se positionner dans le dossier __Cprogramming__ puis __executable__.
+
 * #### Windows 
 
-Cliquer sur le dossier __executable__ puis sur le fichier __executableWindows.exe__ et enfin sur __Télécharger__.
+Cliquer sur le fichier __executableWindows.exe__ et enfin sur __Télécharger__.
 Ouvrir l'emplacement de sauvegarde, l'application se lance alors simplement par un double clique.
 
 * #### Linux
 
-Cliquer sur le dossier __executable__ puis sur le fichier __executableLinux__ et enfin sur __Télécharger__.
+Cliquer sur le fichier __executableLinux__ et enfin sur __Télécharger__.
 Ouvrir l'emplacement de sauvegarde, faire `Shift + Clique Gauche` et __ouvrir un terminal__.
 Exécuter les commandes suivantes : 
 `chmod u+x`
