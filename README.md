@@ -49,7 +49,7 @@ Ouvrir l'emplacement de sauvegarde, l'application se lance alors simplement par 
 Cliquer sur le fichier __executableLinux__ et enfin sur __Télécharger__.
 Ouvrir l'emplacement de sauvegarde, faire `Shift + Clique Gauche` et __ouvrir un terminal__.
 Exécuter les commandes suivantes : 
-`chmod u+x`
+`chmod +x executableLinux`
 `./executableLinux` 
 
 
