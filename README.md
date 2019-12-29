@@ -23,7 +23,7 @@ Le site est hébergé directement sur GitHub Pages, c'est-à-dire que le site es
 
 ##### Déroulement :
 
-* Cloner le repository :
+* Cloner le repository :  
 `git clone https://github.com/theorisons/algorithmeGenetique.git`   en https  
 `git clone git@github.com:theorisons/algorithmeGenetique.git`   en ssh
 * Se positionner dans le dossier de l'application :
