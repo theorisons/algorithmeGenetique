@@ -1,7 +1,7 @@
 # Algorithme génétique
 
 ## Présentation
-Code de l'algorithme génétique présenté dans la video **[Titre](url_du_lien "Voir la vidéo")**.
+Code de l'algorithme génétique présenté dans la video **[Intelligence Artificielle et Théorie de l’Évolution](https://www.youtube.com/watch?v=kRlbBCOJljs "Voir la vidéo")**.
 Le principe est de trouver une phrase rentré par l'utilisateur en utilisant le principe d'évolution
 
 ## Version web en ReactJs
