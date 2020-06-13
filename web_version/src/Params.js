@@ -117,7 +117,7 @@ export default class Params extends React.Component {
 
         <div className="row justify-content-around">
           <button
-            className="btn btn-secondary col-4"
+            className="btn btn-outline-success col-4"
             type="button"
             onClick={() => {
               this.setState(this.props.resetValues());
@@ -128,7 +128,7 @@ export default class Params extends React.Component {
 
           <button
             type="button"
-            className="btn btn-primary col-4"
+            className="btn btn-success col-4"
             onClick={() => {
               this.props.updateValues(this.state);
             }}

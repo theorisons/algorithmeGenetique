@@ -152,7 +152,7 @@ export default class Command extends React.Component {
     return (
       <button
         type="button"
-        className="btn btn-primary col-3"
+        className="btn btn-success col-3"
         onClick={() => this.handlePlayPause()}
       >
         {message}
@@ -187,7 +187,7 @@ export default class Command extends React.Component {
         <div className="row justify-content-around">
           <button
             type="button"
-            className="btn btn-primary col-3"
+            className="btn btn-success col-3"
             onClick={() => {
               this.stopAnimation();
               this.initAlgo();
@@ -201,7 +201,7 @@ export default class Command extends React.Component {
           </button>
           <button
             type="button"
-            className="btn btn-primary col-3"
+            className="btn btn-success col-3"
             onClick={() => {
               this.stopAnimation();
               this.step();
